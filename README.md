@@ -1,4 +1,4 @@
 # hands-on machine learning with programming
 
-通过编程学习机器学习、深度学习
 
+Grasp concepts of machine learning and deep learning by programming
