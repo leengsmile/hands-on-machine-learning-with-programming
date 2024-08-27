@@ -1,5 +1,7 @@
 """Demonstration of the convexity of softmax logistic regression
 
+Zero initialization for weights works for softmax logistic regression
+
 2024-08-26
 """
 from __future__ import annotations
