@@ -21,18 +21,6 @@ def gen_samples(num_samples: int, num_features: int) -> tuple[torch.Tensor, ...]
     X = torch.from_numpy(X).to(torch.float32)
     y = torch.from_numpy(y).to(torch.float32)
     y = y[:, None]
-    # print(f'type of X: {X.dtype}[{X.shape}], type of y: {y.dtype}[{y.shape}], positive samples: {y.mean()}')
-    return X, y
-    X = torch.normal(0, 1, size=(num_samples, num_features))
-    w = torch.normal(0, 1, size=(num_features, 1))
-    bias = torch.normal(0, 1, size=(1,))
-    z = X + torch.normal(0, 0.1, size=X.shape)
-    # z = X
-    z = X @ w + bias
-    z = sigmoid(z)
-    y = torch.where(z > 0.7, 1., 0.)
-    # print(f'type of X: {X.dtype}[{X.shape}], type of y: {y.dtype}[{y.shape}]')
-
     return X, y
 
 
@@ -84,7 +72,6 @@ def train(dataset: DataLoader, model: Module, optimizer, criterion,
                 rate = evaluate(eval_dataset, model, optimizer, criterion)
                 print(f'{epoch = }/{i:02d}, train auc: {train_auc.compute()}, train loss: {loss.item():.3f}, '
                       f'evaluate rate: {rate}')
-                
 
 
 def evaluate(dataset: DataLoader, model: Module, optimizer, criterion):
@@ -112,7 +99,6 @@ def main():
     dataset = MyDataset(X, y)
     train_dataset, valid_dataset = random_split(dataset, [2./3, 1./3])
     train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
-
     valid_loader = DataLoader(valid_dataset, batch_size=128, shuffle=False)
 
     net = Net(input_dim=num_features, zero_weights=True)

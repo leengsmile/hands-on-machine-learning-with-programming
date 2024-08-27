@@ -1,3 +1,7 @@
+"""Demonstration of the convexity of softmax logistic regression
+
+2024-08-26
+"""
 from __future__ import annotations
 
 import numpy as np
