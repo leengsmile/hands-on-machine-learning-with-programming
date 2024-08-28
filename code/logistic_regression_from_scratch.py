@@ -6,6 +6,7 @@ from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import log_loss
 
+
 def gen_samples(num_samples: int = 1000, num_features: int = 30, ):
     return make_classification(n_samples=num_samples, n_features=num_features, n_classes=2, weights=[0.85, 0.15])    
 
@@ -18,9 +19,7 @@ def gen_data(X, y, batch_size: int):
         lables = y[i:i+batch_size]
         yield data, lables
 
-def sigmoid(X, w, b):
-    # print(f'{X.shape = }, {w.shape = }, {b = }')
-    
+def sigmoid(X, w, b):    
     z = X @ w + b
     return _sigmoid(z)
     
@@ -37,18 +36,15 @@ class LogisticRegression:
         bias = np.zeros(1)
         
         for iter_id in range(self.num_iters):
-            # self.batch_size = 1
             running_loss = 0.
             n_samples = 0
             for epoch, (data, labels) in enumerate(gen_data(X, y, batch_size=self.batch_size)):
                 m = len(data)
                 s = sigmoid(data, weights, bias)
-                # print(f'{labels = }, {s = }')
                 loss = log_loss(labels, s)
                 running_loss += loss * m
                 n_samples += m
                 delta = s - labels
-                # print(f'{X.shape = }, {delta.shape = }, {m = }')
                 dw = data.T @ delta  / m
                 db = np.sum(delta) / m
                 weights -= self.learning_rate * dw
@@ -71,7 +67,6 @@ class LogisticRegression:
     def predict_proba(self, X):
         return sigmoid(X, self.weights, self.bias)
 
-        
 
 def main():
     num_samples = 10000
@@ -84,8 +79,7 @@ def main():
     predicts = model.predict_proba(valid_X)
     valid_loss = log_loss(valid_y, predicts)
     print(f'valid loss = {valid_loss}')
-    
-    
+
 
 if __name__ == '__main__':
     main()
